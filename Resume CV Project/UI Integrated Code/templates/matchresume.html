@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Matcher</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            background: rgb(255,89,162);
+            background: radial-gradient(circle, rgba(255,89,162,1) 0%, rgba(69,166,254,1) 100%);
+            font-family: "Montserrat", sans-serif;
+
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        footer{
+           margin-top: auto;
+           text-align: center;
+           padding-bottom: 10px;
+           padding-top: 10px;
+           color: white;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card-header:first-child {
+            border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            padding: 10px 20px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        input[type=file]::file-selector-button {
+            border: 2px solid #007bff;
+            padding: .2em .4em;
+            border-radius: .2em;
+            background-color: white;
+            transition: 0.5s;
+            width: 150px
+        }
+
+        input[type=file]::file-selector-button:hover {
+            background-color: #007bff;
+            border: 2px solid #007bff;
+            color: white;
+        }
+
+        input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
+            cursor: pointer;
+        }
+
+        .montserrat-<uniquifier> {
+            font-family: "Montserrat", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Job Description and Resume Matcher</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/matcher" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="job_description">Job Description:</label>
+                        <textarea class="form-control" id="job_description" name="job_description" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="resumes">Upload Resumes:</label>
+                        <p>Please upload 5 or more resumes...</p>
+                        <input type="file" style="height: 2.9rem" class="form-control" id="resumes" name="resumes" multiple required accept=".pdf, .docx, .txt">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                    <button style="" type="submit" class="btn btn-primary">Match Resumes</button>
+                    </div>
+                </form>
+                {% if message %}
+                    <div class="alert alert-info mt-4">
+                        <p>{{ message }}</p>
+                        <ul>
+                            {% for index in range(top_resumes|length) %}
+                                <li>{{ top_resumes[index] }} (Similarity Score: {{ similarity_scores[index] }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <footer> Created by <a onmouseover="this.style.color='purple'" onmouseout="this.style.color='white'" target="_blank" style="color: white" href="https://github.com/neddevs"> @neddevs </a> and <a onmouseover="this.style.color='purple'" onmouseout="this.style.color='white'" target="_blank" style="color: white" href="https://github.com/meezumi"> @meezumi </a> </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
